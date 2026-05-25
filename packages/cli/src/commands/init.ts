@@ -1,5 +1,5 @@
 import path from "node:path";
-import { checkbox, confirm, input, select } from "@inquirer/prompts";
+import { checkbox, confirm, input, search, select } from "@inquirer/prompts";
 import { createFilePlan, formatFilePlan, writeFilePlan } from "@odinfra/generator";
 import {
   createAgentConfigFromRole,
@@ -7,7 +7,7 @@ import {
   DEFAULT_MODEL_ID,
   getPermissionForRole,
   isValidAgentId,
-  isValidModelId,
+  OPENCODE_GO_MODELS,
   roleDefinitions,
   toKebabAgentId,
   type AgentMode,
@@ -64,6 +64,20 @@ function createDefaultAnswers(includeCommands: boolean): { agents: OdinfraAgentC
   };
 }
 
+async function searchModel(message: string): Promise<string> {
+  return search<string>({
+    message,
+    source: (term) => {
+      if (!term) return [...OPENCODE_GO_MODELS];
+      const q = term.toLowerCase();
+      return OPENCODE_GO_MODELS.filter(
+        (m) => m.name.toLowerCase().includes(q) || m.value.toLowerCase().includes(q)
+      );
+    },
+    pageSize: 10
+  });
+}
+
 async function promptForAnswers(
   includeCommandsFromFlag: boolean
 ): Promise<{ agents: OdinfraAgentConfig[]; includeCommands: boolean }> {
@@ -96,11 +110,7 @@ async function promptForAnswers(
   const builtInIds = selectedIds.filter((id) => id !== "custom-agent");
   const builtInAgents = [] as OdinfraAgentConfig[];
   for (const role of roleDefinitions.filter((candidate) => builtInIds.includes(candidate.id))) {
-    const model = await input({
-      message: `Model ID for ${role.label}`,
-      default: role.defaultModel,
-      validate: (value) => (isValidModelId(value) ? true : "Use provider/model-id format.")
-    });
+    const model = await searchModel(`Model ID for ${role.label}`);
     builtInAgents.push(createAgentConfigFromRole(role, model));
   }
 
@@ -151,11 +161,7 @@ async function promptForCustomAgents(existingAgents: OdinfraAgentConfig[]): Prom
         { name: "all", value: "all" }
       ]
     });
-    const model = await input({
-      message: "Custom agent model ID",
-      default: DEFAULT_MODEL_ID,
-      validate: (value) => (isValidModelId(value) ? true : "Use provider/model-id format.")
-    });
+    const model = await searchModel("Custom agent model ID");
     const basePreset = await select<string>({
       message: "Base permission preset",
       choices: roleDefinitions.map((role) => ({ name: role.label, value: role.permissionPreset }))

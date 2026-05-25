@@ -7,7 +7,22 @@ export const ODINFRA_SCHEMA_VERSION = "0.1.0";
  * @deprecated Use ODINFRA_SCHEMA_VERSION for new code. This is not the CLI package version.
  */
 export const ODINFRA_VERSION = ODINFRA_SCHEMA_VERSION;
-export const DEFAULT_MODEL_ID = "provider/model-id";
+export const OPENCODE_GO_MODELS = [
+  { value: "opencode-go/deepseek-v4-pro", name: "DeepSeek V4 Pro", description: "Powerful general-purpose coding model" },
+  { value: "opencode-go/deepseek-v4-flash", name: "DeepSeek V4 Flash", description: "Fast, cost-effective coding model" },
+  { value: "opencode-go/kimi-k2.6", name: "Kimi K2.6", description: "Strong reasoning and code generation" },
+  { value: "opencode-go/kimi-k2.5", name: "Kimi K2.5", description: "Strong reasoning capability" },
+  { value: "opencode-go/glm-5.1", name: "GLM-5.1", description: "Highest capability, premium tier" },
+  { value: "opencode-go/glm-5", name: "GLM-5", description: "High capability, balanced cost" },
+  { value: "opencode-go/mimo-v2.5-pro", name: "MiMo-V2.5-Pro", description: "Strong coding performance" },
+  { value: "opencode-go/mimo-v2.5", name: "MiMo-V2.5", description: "Balanced performance and cost" },
+  { value: "opencode-go/minimax-m2.7", name: "MiniMax M2.7", description: "Efficient and fast responses" },
+  { value: "opencode-go/minimax-m2.5", name: "MiniMax M2.5", description: "Budget-friendly, high throughput" },
+  { value: "opencode-go/qwen3.6-plus", name: "Qwen3.6 Plus", description: "Excellent code generation" },
+  { value: "opencode-go/qwen3.5-plus", name: "Qwen3.5 Plus", description: "Most cost-effective option" }
+] as const;
+
+export const DEFAULT_MODEL_ID = OPENCODE_GO_MODELS[0].value;
 
 export const permissionActionSchema = z.enum(["allow", "ask", "deny"]);
 export type PermissionAction = z.infer<typeof permissionActionSchema>;
