@@ -16,6 +16,7 @@
     "release": "pnpm release:check",
     "release:check": "pnpm check && changeset status",
     "release:publish": "pnpm check && changeset publish",
+    "release:trust": "node scripts/configure-npm-trusted-publishing.mjs",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
     "version-packages": "changeset version"
