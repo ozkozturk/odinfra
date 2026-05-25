@@ -6,11 +6,18 @@
   "packageManager": "pnpm@9.15.4",
   "scripts": {
     "build": "pnpm --recursive --sort run build",
+    "changeset": "changeset",
+    "check": "pnpm typecheck && pnpm test && pnpm build",
     "dev": "tsx --conditions development packages/cli/src/index.ts",
+    "release": "pnpm release:check",
+    "release:check": "pnpm check && changeset status",
+    "release:publish": "pnpm check && changeset publish",
     "test": "vitest run",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "version-packages": "changeset version"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.31.0",
     "@types/node": "^22.10.2",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
