@@ -7,9 +7,13 @@ Odinfra publishes with npm Trusted Publishing from GitHub Actions. This avoids l
 The npm package owner must run this once from a machine logged in to npm:
 
 ```bash
-npm login
+npm login --auth-type=web
 pnpm release:trust
 ```
+
+The first trusted-publisher write may require npm two-factor authentication. Complete the 2FA challenge in the browser and choose npm's option to skip 2FA for the next 5 minutes; the script then configures the remaining packages automatically.
+
+If the command fails with `E403` immediately after saying that 2FA is required, refresh the npm login with `npm login --auth-type=web` and rerun `pnpm release:trust`. The npm trust endpoints do not support legacy basic-auth sessions.
 
 The script configures these packages to trust `ozkozturk/odinfra`, workflow `.github/workflows/release.yml`, environment `npm`, with publish permission:
 
