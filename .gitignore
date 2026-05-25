@@ -1,0 +1,17 @@
+node_modules/
+dist/
+coverage/
+.turbo/
+.DS_Store
+*.log
+
+# Local agent/tool configuration. These are generated or user-owned in target projects.
+/AGENTS.md
+/CLAUDE.md
+/docs/
+/.agents/
+/.claude/
+/.opencode/
+/.odinfra/
+/opencode.json
+/opencode.jsonc

@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@odinfra/schema": ["./packages/schema/src/index.ts"],
+      "@odinfra/generator": ["./packages/generator/src/index.ts"],
+      "@odinfra/adapter-opencode": ["./packages/adapter-opencode/src/index.ts"],
+      "@odinfra/templates": ["./packages/templates/src/index.ts"]
+    }
+  },
+  "include": ["packages/**/*.ts", "tests/**/*.ts", "vitest.config.ts"]
+}
