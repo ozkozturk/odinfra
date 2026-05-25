@@ -1,9 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  createFilePlan,
-  mergeOpenCodeConfig,
-  upsertManagedBlock
-} from "@odinfra/generator";
+import { createFilePlan, mergeOpenCodeConfig, upsertManagedBlock } from "@odinfra/generator";
 import { createDefaultAgents } from "@odinfra/schema";
 
 describe("managed AGENTS.md block", () => {

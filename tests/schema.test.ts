@@ -1,10 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  defaultSelectedAgentIds,
-  getPermissionForRole,
-  roleDefinitions,
-  toKebabAgentId
-} from "@odinfra/schema";
+import { defaultSelectedAgentIds, getPermissionForRole, roleDefinitions, toKebabAgentId } from "@odinfra/schema";
 
 describe("schema role defaults", () => {
   it("selects only Odin by default", () => {

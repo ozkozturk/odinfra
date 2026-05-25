@@ -56,7 +56,9 @@ async function checkAnyPath(projectRoot: string, relativePaths: string[], label:
 async function checkAgentsBlock(projectRoot: string): Promise<Check> {
   try {
     const content = await readFile(path.join(projectRoot, "AGENTS.md"), "utf8");
-    const ok = content.includes("<!-- odinfra:start subagent-management -->") && content.includes("<!-- odinfra:end subagent-management -->");
+    const ok =
+      content.includes("<!-- odinfra:start subagent-management -->") &&
+      content.includes("<!-- odinfra:end subagent-management -->");
     return { label: "Odinfra managed block exists", ok, detail: ok ? "found" : "missing" };
   } catch {
     return { label: "Odinfra managed block exists", ok: false, detail: "AGENTS.md missing" };

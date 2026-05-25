@@ -1,23 +1,30 @@
 {
   "name": "odinfra",
-  "version": "0.1.0",
+  "version": "0.1.1",
+  "description": "CLI for installing governed AI subagent setup files into existing projects.",
   "license": "MIT",
   "type": "module",
   "files": [
-    "dist"
+    "dist",
+    "README.md",
+    "LICENSE"
   ],
   "bin": {
     "odinfra": "./dist/index.js"
   },
-  "exports": {
-    ".": "./dist/index.js"
-  },
   "engines": {
     "node": ">=20"
   },
+  "keywords": [
+    "ai",
+    "agents",
+    "cli",
+    "opencode",
+    "subagents"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/ozkozturk/odinfra.git",
+    "url": "git+https://github.com/ozkozturk/odinfra.git",
     "directory": "packages/cli"
   },
   "bugs": {
@@ -29,7 +36,7 @@
   },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
-    "dev": "tsx --conditions development src/index.ts"
+    "dev": "pnpm --dir ../.. build && node dist/index.js"
   },
   "dependencies": {
     "@inquirer/prompts": "^7.2.1",

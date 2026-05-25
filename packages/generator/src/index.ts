@@ -4,7 +4,7 @@ import { applyEdits, modify, parse, type ParseError } from "jsonc-parser";
 import { renderOpenCodeArtifacts } from "@odinfra/adapter-opencode";
 import {
   getPermissionForRole,
-  ODINFRA_VERSION,
+  ODINFRA_SCHEMA_VERSION,
   odinfraAgentConfigSchema,
   type OdinfraAgentConfig,
   type OdinfraConfig,
@@ -63,10 +63,13 @@ export async function createFilePlan(options: CreateFilePlanOptions): Promise<Fi
   const existingJson = await readExisting("opencode.json");
   const existingJsonc = await readExisting("opencode.jsonc");
   if (existingJson !== undefined && existingJsonc !== undefined) {
-    warnings.push("Both opencode.json and opencode.jsonc exist; using opencode.json and leaving opencode.jsonc untouched.");
+    warnings.push(
+      "Both opencode.json and opencode.jsonc exist; using opencode.json and leaving opencode.jsonc untouched."
+    );
   }
 
-  const opencodeConfigPath = existingJson !== undefined ? "opencode.json" : existingJsonc !== undefined ? "opencode.jsonc" : "opencode.json";
+  const opencodeConfigPath =
+    existingJson !== undefined ? "opencode.json" : existingJsonc !== undefined ? "opencode.jsonc" : "opencode.json";
   const existingOpenCodeConfig = opencodeConfigPath === "opencode.json" ? existingJson : existingJsonc;
   try {
     const mergedConfig = mergeOpenCodeConfig(
@@ -99,7 +102,7 @@ export async function createFilePlan(options: CreateFilePlanOptions): Promise<Fi
   ]);
 
   const config: OdinfraConfig = {
-    version: ODINFRA_VERSION,
+    version: ODINFRA_SCHEMA_VERSION,
     target: {
       tool: targetTool,
       projectRoot: options.projectRoot
@@ -108,7 +111,7 @@ export async function createFilePlan(options: CreateFilePlanOptions): Promise<Fi
   };
 
   const manifest: OdinfraManifest = {
-    version: ODINFRA_VERSION,
+    version: ODINFRA_SCHEMA_VERSION,
     createdBy: "odinfra",
     targetTool,
     generatedAt: (options.generatedAt ?? new Date()).toISOString(),
@@ -116,8 +119,18 @@ export async function createFilePlan(options: CreateFilePlanOptions): Promise<Fi
     managedBlocks: [SUBAGENT_BLOCK]
   };
 
-  addContentItem(items, ".odinfra/config.json", await readExisting(".odinfra/config.json"), `${JSON.stringify(config, null, 2)}\n`);
-  addContentItem(items, ".odinfra/manifest.json", await readExisting(".odinfra/manifest.json"), `${JSON.stringify(manifest, null, 2)}\n`);
+  addContentItem(
+    items,
+    ".odinfra/config.json",
+    await readExisting(".odinfra/config.json"),
+    `${JSON.stringify(config, null, 2)}\n`
+  );
+  addContentItem(
+    items,
+    ".odinfra/manifest.json",
+    await readExisting(".odinfra/manifest.json"),
+    `${JSON.stringify(manifest, null, 2)}\n`
+  );
 
   return { items, warnings, config, manifest };
 }
@@ -176,15 +189,9 @@ export function upsertManagedBlock(existingContent: string | undefined, generate
 }
 
 export function renderManagedBlock(generatedContent: string): string {
-  return [
-    "## Subagent Management",
-    "",
-    SUBAGENT_BLOCK.start,
-    "",
-    generatedContent.trim(),
-    "",
-    SUBAGENT_BLOCK.end
-  ].join("\n");
+  return ["## Subagent Management", "", SUBAGENT_BLOCK.start, "", generatedContent.trim(), "", SUBAGENT_BLOCK.end].join(
+    "\n"
+  );
 }
 
 export function mergeOpenCodeConfig(
@@ -252,8 +259,14 @@ function normalizeAgents(agents: OdinfraAgentConfig[]): OdinfraAgentConfig[] {
   });
 }
 
-function addContentItem(items: FilePlanItem[], relativePath: string, existingContent: string | undefined, nextContent: string): void {
-  const action: FilePlanAction = existingContent === undefined ? "create" : existingContent === nextContent ? "unchanged" : "update";
+function addContentItem(
+  items: FilePlanItem[],
+  relativePath: string,
+  existingContent: string | undefined,
+  nextContent: string
+): void {
+  const action: FilePlanAction =
+    existingContent === undefined ? "create" : existingContent === nextContent ? "unchanged" : "update";
   items.push({ path: relativePath, action, content: nextContent });
 }
 

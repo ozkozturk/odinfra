@@ -11,7 +11,6 @@ import {
   roleDefinitions,
   toKebabAgentId,
   type AgentMode,
-  type AgentPermission,
   type OdinfraAgentConfig,
   type PermissionAction
 } from "@odinfra/schema";
@@ -47,9 +46,7 @@ export async function runInit(options: InitOptions): Promise<void> {
     return;
   }
 
-  const shouldWrite = options.yes
-    ? true
-    : await confirm({ message: "Write these files?", default: false });
+  const shouldWrite = options.yes ? true : await confirm({ message: "Write these files?", default: false });
 
   if (!shouldWrite) {
     console.log("No files were written.");
@@ -67,7 +64,9 @@ function createDefaultAnswers(includeCommands: boolean): { agents: OdinfraAgentC
   };
 }
 
-async function promptForAnswers(includeCommandsFromFlag: boolean): Promise<{ agents: OdinfraAgentConfig[]; includeCommands: boolean }> {
+async function promptForAnswers(
+  includeCommandsFromFlag: boolean
+): Promise<{ agents: OdinfraAgentConfig[]; includeCommands: boolean }> {
   await select({
     message: "Select target tool",
     choices: [{ name: "OpenCode (v0 active target)", value: "opencode" as const }]
@@ -179,7 +178,9 @@ async function promptForCustomAgents(existingAgents: OdinfraAgentConfig[]): Prom
     for (const command of bashCommands) {
       permission.bash[command] = "allow";
     }
-    permission.task = (await confirm({ message: "Can launch other agents?", default: false })) ? { "*": "ask" } : "deny";
+    permission.task = (await confirm({ message: "Can launch other agents?", default: false }))
+      ? { "*": "ask" }
+      : "deny";
     permission.webfetch = await selectPermission("Web fetch permission", permission.webfetch);
     permission.websearch = await selectPermission("Web search permission", permission.websearch);
     permission.lsp = await selectPermission("LSP permission", permission.lsp);

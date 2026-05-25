@@ -8,7 +8,8 @@ coverage/
 # Local agent/tool configuration. These are generated or user-owned in target projects.
 /AGENTS.md
 /CLAUDE.md
-/docs/
+/docs/generated/
+/docs/.cache/
 /.agents/
 /.claude/
 /.opencode/

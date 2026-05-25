@@ -1,11 +1,18 @@
+import { readFileSync } from "node:fs";
 import { Command } from "commander";
 import { runDoctor } from "./commands/doctor.js";
 import { runInit } from "./commands/init.js";
 import { runInspect } from "./commands/inspect.js";
 
 const program = new Command();
+const packageJson = JSON.parse(readFileSync(new URL("../package.json", import.meta.url), "utf8")) as {
+  version?: string;
+};
 
-program.name("odinfra").description("Install governed AI subagent setup files into a project.").version("0.1.0");
+program
+  .name("odinfra")
+  .description("Install governed AI subagent setup files into a project.")
+  .version(packageJson.version ?? "0.0.0");
 
 program
   .command("init")

@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "noEmit": true,
+    "paths": {
+      "@odinfra/adapter-opencode": ["./packages/adapter-opencode/dist/index.d.ts"],
+      "@odinfra/generator": ["./packages/generator/dist/index.d.ts"],
+      "@odinfra/schema": ["./packages/schema/dist/index.d.ts"],
+      "@odinfra/templates": ["./packages/templates/dist/index.d.ts"]
+    }
+  },
+  "include": ["tests/package-consumer.ts"]
+}

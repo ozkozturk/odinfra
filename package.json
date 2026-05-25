@@ -7,8 +7,12 @@
   "scripts": {
     "build": "pnpm --recursive --sort run build",
     "changeset": "changeset",
-    "check": "pnpm typecheck && pnpm test && pnpm build",
-    "dev": "tsx --conditions development packages/cli/src/index.ts",
+    "check": "pnpm lint && pnpm format:check && pnpm typecheck && pnpm test && pnpm build && pnpm pack:check",
+    "dev": "pnpm build && node packages/cli/dist/index.js",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "pack:check": "node scripts/pack-check.mjs && tsc --project tsconfig.package-smoke.json",
     "release": "pnpm release:check",
     "release:check": "pnpm check && changeset status",
     "release:publish": "pnpm check && changeset publish",
@@ -18,10 +22,14 @@
   },
   "devDependencies": {
     "@changesets/cli": "^2.31.0",
+    "@eslint/js": "^10.0.1",
     "@types/node": "^22.10.2",
+    "eslint": "^10.4.0",
+    "prettier": "^3.8.3",
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
     "typescript": "^5.7.2",
+    "typescript-eslint": "^8.59.4",
     "vitest": "^2.1.8"
   }
 }

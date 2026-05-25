@@ -1,6 +1,12 @@
 import { z } from "zod";
 
-export const ODINFRA_VERSION = "0.1.0";
+export const ODINFRA_SCHEMA_VERSION = "0.1.0";
+/**
+ * Version of the generated Odinfra config and manifest schema.
+ *
+ * @deprecated Use ODINFRA_SCHEMA_VERSION for new code. This is not the CLI package version.
+ */
+export const ODINFRA_VERSION = ODINFRA_SCHEMA_VERSION;
 export const DEFAULT_MODEL_ID = "provider/model-id";
 
 export const permissionActionSchema = z.enum(["allow", "ask", "deny"]);
@@ -139,7 +145,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "odin-orchestrator",
     label: "Odin (Orchestrator)",
     role: "orchestrator",
-    description: "Coordinates selected subagents, plans workflows, and delegates work. It should not directly implement code by default.",
+    description:
+      "Coordinates selected subagents, plans workflows, and delegates work. It should not directly implement code by default.",
     mode: "primary",
     permissionPreset: "orchestrator",
     defaultSelected: true,
@@ -151,7 +158,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "researcher",
     label: "Researcher",
     role: "researcher",
-    description: "Reads project context, existing files, rules, dependencies, and summarizes findings without changing files.",
+    description:
+      "Reads project context, existing files, rules, dependencies, and summarizes findings without changing files.",
     mode: "subagent",
     permissionPreset: "researcher",
     defaultSelected: false,
@@ -181,13 +189,21 @@ export const roleDefinitions: RoleDefinition[] = [
     defaultSelected: false,
     optional: true,
     defaultModel: DEFAULT_MODEL_ID,
-    suggestedScopes: ["apps/api/**", "apps/server/**", "packages/server/**", "packages/db/**", "src/server/**", "src/api/**"]
+    suggestedScopes: [
+      "apps/api/**",
+      "apps/server/**",
+      "packages/server/**",
+      "packages/db/**",
+      "src/server/**",
+      "src/api/**"
+    ]
   },
   {
     id: "checker",
     label: "Checker",
     role: "checker",
-    description: "Checks mechanical rule compliance without editing code. It verifies conventions and rules compliance; it is not a reviewer.",
+    description:
+      "Checks mechanical rule compliance without editing code. It verifies conventions and rules compliance; it is not a reviewer.",
     mode: "subagent",
     permissionPreset: "checker",
     defaultSelected: false,
@@ -199,7 +215,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "reviewer",
     label: "Reviewer",
     role: "reviewer",
-    description: "Reviews correctness, maintainability, security, architecture, edge cases, and implementation quality without editing code.",
+    description:
+      "Reviews correctness, maintainability, security, architecture, edge cases, and implementation quality without editing code.",
     mode: "subagent",
     permissionPreset: "reviewer",
     defaultSelected: false,
@@ -235,7 +252,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "devops-engineer",
     label: "DevOps Engineer",
     role: "devops-engineer",
-    description: "Works on CI/CD, Docker, scripts, deployment, and infrastructure-related files with cautious permissions.",
+    description:
+      "Works on CI/CD, Docker, scripts, deployment, and infrastructure-related files with cautious permissions.",
     mode: "subagent",
     permissionPreset: "devops-engineer",
     defaultSelected: false,
@@ -247,7 +265,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "security-reviewer",
     label: "Security Reviewer",
     role: "security-reviewer",
-    description: "Reviews security-sensitive changes, auth flows, secret handling, permissions, unsafe patterns, and dependency risks.",
+    description:
+      "Reviews security-sensitive changes, auth flows, secret handling, permissions, unsafe patterns, and dependency risks.",
     mode: "subagent",
     permissionPreset: "security-reviewer",
     defaultSelected: false,
@@ -259,7 +278,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "architect",
     label: "Architect",
     role: "architect",
-    description: "Helps with high-level structure, boundaries, module design, package boundaries, and technical decisions.",
+    description:
+      "Helps with high-level structure, boundaries, module design, package boundaries, and technical decisions.",
     mode: "subagent",
     permissionPreset: "architect",
     defaultSelected: false,
@@ -468,7 +488,13 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
     grep: safeRead,
     list: safeRead,
     edit: safeDeny,
-    bash: { "*": safeAsk, "git status*": safeRead, "git diff*": safeRead, "pnpm audit*": safeAsk, "npm audit*": safeAsk },
+    bash: {
+      "*": safeAsk,
+      "git status*": safeRead,
+      "git diff*": safeRead,
+      "pnpm audit*": safeAsk,
+      "npm audit*": safeAsk
+    },
     task: safeDeny,
     external_directory: safeDeny,
     webfetch: safeAsk,

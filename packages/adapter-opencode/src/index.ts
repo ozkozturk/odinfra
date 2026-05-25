@@ -53,7 +53,11 @@ function selectDefaultAgentId(agents: OdinfraAgentConfig[]): string {
   return primary?.id ?? agents[0]?.id ?? "odin-orchestrator";
 }
 
-function renderAgentFile(agent: OdinfraAgentConfig, allAgents: OdinfraAgentConfig[], selectedAgentIds: string[]): string {
+function renderAgentFile(
+  agent: OdinfraAgentConfig,
+  allAgents: OdinfraAgentConfig[],
+  selectedAgentIds: string[]
+): string {
   const permission = agent.permission ?? getPermissionForRole(agent.permissionPreset, selectedAgentIds);
   const frontmatter = [
     "---",
@@ -78,7 +82,11 @@ function renderCommandFile(command: { description: string; agent?: string; body:
   return lines.join("\n");
 }
 
-function renderAgentsBlock(agents: OdinfraAgentConfig[], defaultAgentId: string, artifacts: GeneratedArtifact[]): string {
+function renderAgentsBlock(
+  agents: OdinfraAgentConfig[],
+  defaultAgentId: string,
+  artifacts: GeneratedArtifact[]
+): string {
   const agentLines = agents.map((agent) => `- \`${agent.id}\` (${agent.mode}) - ${agent.description}`);
   const fileLines = artifacts.map((artifact) => `- \`${artifact.path}\``);
 
