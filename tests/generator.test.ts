@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { renderOpenCodeArtifacts } from "@odinfra/adapter-opencode";
 import { createFilePlan, mergeOpenCodeConfig, upsertManagedBlock } from "@odinfra/generator";
 import { createDefaultAgents } from "@odinfra/schema";
 
@@ -44,22 +45,18 @@ describe("managed AGENTS.md block", () => {
 
 describe("OpenCode config merge", () => {
   it("deep-merges opencode.json without removing user keys", () => {
+    const artifacts = renderOpenCodeArtifacts({ agents: createDefaultAgents(), includeCommands: false });
     const merged = JSON.parse(
       mergeOpenCodeConfig(
         JSON.stringify({ custom: true, instructions: ["README.md"], agent: { existing: { mode: "primary" } } }),
-        {
-          $schema: "https://opencode.ai/config.json",
-          default_agent: "odin-orchestrator",
-          instructions: ["AGENTS.md"],
-          agent: {}
-        },
+        artifacts.opencodeConfigPatch,
         false
       )
     ) as Record<string, unknown>;
 
     expect(merged.custom).toBe(true);
     expect(merged.default_agent).toBe("odin-orchestrator");
-    expect(merged.instructions).toEqual(["README.md", "AGENTS.md"]);
+    expect(merged.instructions).toEqual(["README.md", "AGENTS.md", ".opencode/ROLE_SYSTEM.md"]);
     expect(merged.agent).toEqual({ existing: { mode: "primary" } });
   });
 
@@ -95,6 +92,7 @@ describe("file plan", () => {
       expect.arrayContaining([
         "AGENTS.md",
         "opencode.json",
+        ".opencode/ROLE_SYSTEM.md",
         ".opencode/agents/odin-orchestrator.md",
         ".opencode/commands/odinfra-plan.md",
         ".opencode/commands/odinfra-check.md",
@@ -105,6 +103,7 @@ describe("file plan", () => {
     );
     expect(plan.manifest.generatedAt).toBe("2026-01-01T00:00:00.000Z");
     expect(plan.manifest.managedFiles).toContain("AGENTS.md");
+    expect(plan.manifest.managedFiles).toContain(".opencode/ROLE_SYSTEM.md");
   });
 
   it("plans updates without writing files", async () => {

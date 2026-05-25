@@ -1,5 +1,5 @@
 import { getPermissionForRole, type AgentPermission, type OdinfraAgentConfig } from "@odinfra/schema";
-import { renderAgentBody, renderCommandTemplates } from "@odinfra/templates";
+import { renderAgentBody, renderCommandTemplates, renderRoleSystem } from "@odinfra/templates";
 
 export interface GeneratedArtifact {
   path: string;
@@ -11,6 +11,7 @@ export interface OpenCodeArtifacts {
   agentsBlock: string;
   agentFiles: GeneratedArtifact[];
   commandFiles: GeneratedArtifact[];
+  roleSystemFile: GeneratedArtifact;
   defaultAgentId: string;
 }
 
@@ -34,15 +35,21 @@ export function renderOpenCodeArtifacts(options: RenderOpenCodeOptions): OpenCod
       }))
     : [];
 
+  const roleSystemFile: GeneratedArtifact = {
+    path: ".opencode/ROLE_SYSTEM.md",
+    content: renderRoleSystem(options.agents)
+  };
+
   return {
     defaultAgentId,
     agentFiles,
     commandFiles,
-    agentsBlock: renderAgentsBlock(options.agents, defaultAgentId, [...agentFiles, ...commandFiles]),
+    roleSystemFile,
+    agentsBlock: renderAgentsBlock(options.agents, defaultAgentId, [roleSystemFile, ...agentFiles, ...commandFiles]),
     opencodeConfigPatch: {
       $schema: "https://opencode.ai/config.json",
       default_agent: defaultAgentId,
-      instructions: ["AGENTS.md"],
+      instructions: ["AGENTS.md", ".opencode/ROLE_SYSTEM.md"],
       agent: {}
     }
   };
