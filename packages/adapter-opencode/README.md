@@ -8,7 +8,8 @@ Renderer that converts Odinfra agent configuration into OpenCode-compatible arti
 import { renderOpenCodeArtifacts } from "@odinfra/adapter-opencode";
 ```
 
-The adapter returns config patches, managed `AGENTS.md` content, agent files, and optional command files. It does not write to disk.
+The adapter returns config patches, managed `AGENTS.md` content, the generated `.opencode/ROLE_SYSTEM.md`
+artifact, agent files, and optional command files. It does not write to disk.
 
 ## Runtime
 

@@ -1,12 +1,14 @@
 import { renderOpenCodeArtifacts } from "@odinfra/adapter-opencode";
 import { createFilePlan } from "@odinfra/generator";
 import { createDefaultAgents, ODINFRA_SCHEMA_VERSION } from "@odinfra/schema";
-import { renderAgentBody } from "@odinfra/templates";
+import { renderAgentBody, renderRoleSystem } from "@odinfra/templates";
 
 const agents = createDefaultAgents();
+const artifacts = renderOpenCodeArtifacts({ agents, includeCommands: false });
 
-renderOpenCodeArtifacts({ agents, includeCommands: false });
+artifacts.roleSystemFile.content satisfies string;
 renderAgentBody(agents[0], agents);
+renderRoleSystem(agents);
 await createFilePlan({
   projectRoot: ".",
   agents,

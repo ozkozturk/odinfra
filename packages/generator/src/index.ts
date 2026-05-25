@@ -87,7 +87,7 @@ export async function createFilePlan(options: CreateFilePlanOptions): Promise<Fi
     warnings.push(`Skipped ${opencodeConfigPath}: ${error instanceof Error ? error.message : String(error)}`);
   }
 
-  for (const artifact of [...artifacts.agentFiles, ...artifacts.commandFiles]) {
+  for (const artifact of [artifacts.roleSystemFile, ...artifacts.agentFiles, ...artifacts.commandFiles]) {
     const existing = await readExisting(artifact.path);
     addContentItem(items, artifact.path, existing, artifact.content);
   }
@@ -95,6 +95,7 @@ export async function createFilePlan(options: CreateFilePlanOptions): Promise<Fi
   const managedFiles = unique([
     agentsPath,
     opencodeConfigPath,
+    artifacts.roleSystemFile.path,
     ...artifacts.agentFiles.map((artifact) => artifact.path),
     ...artifacts.commandFiles.map((artifact) => artifact.path),
     ".odinfra/config.json",
