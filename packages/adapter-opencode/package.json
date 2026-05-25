@@ -1,14 +1,32 @@
 {
   "name": "@odinfra/adapter-opencode",
   "version": "0.1.0",
-  "private": true,
+  "license": "MIT",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "development": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ozkozturk/odinfra.git",
+    "directory": "packages/adapter-opencode"
+  },
+  "bugs": {
+    "url": "https://github.com/ozkozturk/odinfra/issues"
+  },
+  "homepage": "https://github.com/ozkozturk/odinfra#readme",
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsup src/index.ts --format esm --dts --clean --target node20"

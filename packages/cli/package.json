@@ -1,12 +1,31 @@
 {
   "name": "odinfra",
   "version": "0.1.0",
+  "license": "MIT",
   "type": "module",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "odinfra": "./dist/index.js"
   },
   "exports": {
     ".": "./dist/index.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/ozkozturk/odinfra.git",
+    "directory": "packages/cli"
+  },
+  "bugs": {
+    "url": "https://github.com/ozkozturk/odinfra/issues"
+  },
+  "homepage": "https://github.com/ozkozturk/odinfra#readme",
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsup --config tsup.config.ts",
