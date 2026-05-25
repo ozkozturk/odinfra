@@ -8,8 +8,16 @@ export const ODINFRA_SCHEMA_VERSION = "0.1.0";
  */
 export const ODINFRA_VERSION = ODINFRA_SCHEMA_VERSION;
 export const OPENCODE_GO_MODELS = [
-  { value: "opencode-go/deepseek-v4-pro", name: "DeepSeek V4 Pro", description: "Powerful general-purpose coding model" },
-  { value: "opencode-go/deepseek-v4-flash", name: "DeepSeek V4 Flash", description: "Fast, cost-effective coding model" },
+  {
+    value: "opencode-go/deepseek-v4-pro",
+    name: "DeepSeek V4 Pro",
+    description: "Powerful general-purpose coding model"
+  },
+  {
+    value: "opencode-go/deepseek-v4-flash",
+    name: "DeepSeek V4 Flash",
+    description: "Fast, cost-effective coding model"
+  },
   { value: "opencode-go/kimi-k2.6", name: "Kimi K2.6", description: "Strong reasoning and code generation" },
   { value: "opencode-go/kimi-k2.5", name: "Kimi K2.5", description: "Strong reasoning capability" },
   { value: "opencode-go/glm-5.1", name: "GLM-5.1", description: "Highest capability, premium tier" },
@@ -161,7 +169,7 @@ export const roleDefinitions: RoleDefinition[] = [
     label: "Odin (Orchestrator)",
     role: "orchestrator",
     description:
-      "Coordinates selected subagents, plans workflows, and delegates work. It should not directly implement code by default.",
+      "Plans work, coordinates subagents, tracks progress, and synthesizes results. Never implements code directly unless the user explicitly overrides this rule.",
     mode: "primary",
     permissionPreset: "orchestrator",
     defaultSelected: true,
@@ -174,7 +182,7 @@ export const roleDefinitions: RoleDefinition[] = [
     label: "Researcher",
     role: "researcher",
     description:
-      "Reads project context, existing files, rules, dependencies, and summarizes findings without changing files.",
+      "Investigates codebase structure, dependencies, conventions, and existing patterns. Produces structured summaries and recommendations without modifying any files.",
     mode: "subagent",
     permissionPreset: "researcher",
     defaultSelected: false,
@@ -186,7 +194,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "frontend-engineer",
     label: "Frontend Engineer",
     role: "frontend-engineer",
-    description: "Implements frontend changes within allowed frontend scopes.",
+    description:
+      "Implements UI components, styles, and client-side logic within designated frontend scopes following existing framework and design conventions.",
     mode: "subagent",
     permissionPreset: "frontend-engineer",
     defaultSelected: false,
@@ -198,7 +207,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "backend-engineer",
     label: "Backend Engineer",
     role: "backend-engineer",
-    description: "Implements backend, API, service, or database-related changes within allowed backend scopes.",
+    description:
+      "Implements APIs, services, data models, and server-side logic within designated backend scopes following existing architecture patterns.",
     mode: "subagent",
     permissionPreset: "backend-engineer",
     defaultSelected: false,
@@ -218,7 +228,7 @@ export const roleDefinitions: RoleDefinition[] = [
     label: "Checker",
     role: "checker",
     description:
-      "Checks mechanical rule compliance without editing code. It verifies conventions and rules compliance; it is not a reviewer.",
+      "Audits code against project conventions, naming rules, forbidden patterns, and generated-file boundaries. Reports violations without editing code. Not a reviewer.",
     mode: "subagent",
     permissionPreset: "checker",
     defaultSelected: false,
@@ -231,7 +241,7 @@ export const roleDefinitions: RoleDefinition[] = [
     label: "Reviewer",
     role: "reviewer",
     description:
-      "Reviews correctness, maintainability, security, architecture, edge cases, and implementation quality without editing code.",
+      "Reviews correctness, edge cases, race conditions, security implications, architecture alignment, and production risk. Reports by severity without editing code.",
     mode: "subagent",
     permissionPreset: "reviewer",
     defaultSelected: false,
@@ -243,7 +253,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "docs-writer",
     label: "Docs Writer",
     role: "docs-writer",
-    description: "Writes or updates documentation, README files, usage guides, and agent-facing docs.",
+    description:
+      "Creates and maintains documentation, README files, API references, and architecture decision records. Keeps docs accurate and in sync with code.",
     mode: "subagent",
     permissionPreset: "docs-writer",
     defaultSelected: false,
@@ -255,7 +266,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "test-engineer",
     label: "Test Engineer",
     role: "test-engineer",
-    description: "Creates, updates, or suggests tests and verifies the test strategy.",
+    description:
+      "Designs and implements tests, identifies untested paths, and verifies test reliability. Does not modify production source code.",
     mode: "subagent",
     permissionPreset: "test-engineer",
     defaultSelected: false,
@@ -268,7 +280,7 @@ export const roleDefinitions: RoleDefinition[] = [
     label: "DevOps Engineer",
     role: "devops-engineer",
     description:
-      "Works on CI/CD, Docker, scripts, deployment, and infrastructure-related files with cautious permissions.",
+      "Manages CI/CD pipelines, container configurations, deployment scripts, and infrastructure-as-code. Applies changes cautiously with rollback awareness.",
     mode: "subagent",
     permissionPreset: "devops-engineer",
     defaultSelected: false,
@@ -281,7 +293,7 @@ export const roleDefinitions: RoleDefinition[] = [
     label: "Security Reviewer",
     role: "security-reviewer",
     description:
-      "Reviews security-sensitive changes, auth flows, secret handling, permissions, unsafe patterns, and dependency risks.",
+      "Analyzes code for security vulnerabilities including injection, auth bypass, secret exposure, dependency CVEs, and permission escalation. Reports without editing code.",
     mode: "subagent",
     permissionPreset: "security-reviewer",
     defaultSelected: false,
@@ -294,7 +306,7 @@ export const roleDefinitions: RoleDefinition[] = [
     label: "Architect",
     role: "architect",
     description:
-      "Helps with high-level structure, boundaries, module design, package boundaries, and technical decisions.",
+      "Evaluates system architecture, module boundaries, dependency direction, API contracts, and scalability patterns. Produces recommendations, not code.",
     mode: "subagent",
     permissionPreset: "architect",
     defaultSelected: false,
@@ -306,7 +318,8 @@ export const roleDefinitions: RoleDefinition[] = [
     id: "refactor-engineer",
     label: "Refactor Engineer",
     role: "refactor-engineer",
-    description: "Performs focused refactors without changing product behavior.",
+    description:
+      "Executes behavior-preserving refactors: extract, inline, rename, restructure. Verifies equivalence through existing tests.",
     mode: "subagent",
     permissionPreset: "refactor-engineer",
     defaultSelected: false,

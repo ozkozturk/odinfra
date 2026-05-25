@@ -70,9 +70,7 @@ async function searchModel(message: string): Promise<string> {
     source: (term) => {
       if (!term) return [...OPENCODE_GO_MODELS];
       const q = term.toLowerCase();
-      return OPENCODE_GO_MODELS.filter(
-        (m) => m.name.toLowerCase().includes(q) || m.value.toLowerCase().includes(q)
-      );
+      return OPENCODE_GO_MODELS.filter((m) => m.name.toLowerCase().includes(q) || m.value.toLowerCase().includes(q));
     },
     pageSize: 10
   });

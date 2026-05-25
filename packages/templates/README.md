@@ -5,10 +5,11 @@ Markdown templates for Odinfra-generated agent and command files.
 ## Usage
 
 ```ts
-import { renderAgentBody, renderCommandTemplates } from "@odinfra/templates";
+import { renderAgentBody, renderCommandTemplates, renderRoleSystem } from "@odinfra/templates";
 ```
 
-The package contains pure rendering helpers and does not read or write files.
+The package contains pure rendering helpers for agent files, command files, and the shared `ROLE_SYSTEM.md`
+instructions document. It does not read or write files.
 
 ## Runtime
 
