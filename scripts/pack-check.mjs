@@ -92,6 +92,28 @@ function checkCliSmoke() {
   ]);
   assert(dryRun.stdout.includes("Dry run enabled; no files were written."), "CLI init dry-run smoke failed");
 
+  const configuredProject = path.join(tempDirectory, "configured-project");
+  run(process.execPath, [cliEntry, "init", "--yes", "--commands", "--project-root", configuredProject]);
+
+  const update = run(process.execPath, [cliEntry, "update", "--dry-run", "--yes", "--project-root", configuredProject]);
+  assert(update.stdout.includes(".odinfra/manifest.json"), "CLI update dry-run smoke failed");
+
+  const configure = run(process.execPath, [
+    cliEntry,
+    "configure",
+    "--dry-run",
+    "--yes",
+    "--model",
+    "opencode-go/kimi-k2.6",
+    "--project-root",
+    configuredProject
+  ]);
+  assert(configure.stdout.includes(".opencode/agents/odin-orchestrator.md"), "CLI configure dry-run smoke failed");
+
+  const adopt = run(process.execPath, [cliEntry, "adopt", "--json", "--project-root", configuredProject]);
+  const adoptProfile = JSON.parse(adopt.stdout);
+  assert(adoptProfile.packageManager, "CLI adopt JSON smoke failed");
+
   const doctor = run(
     process.execPath,
     [cliEntry, "doctor", "--project-root", path.join(tempDirectory, "missing-project")],
