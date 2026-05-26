@@ -35,9 +35,18 @@ export async function runInspect(options: InspectOptions): Promise<void> {
     if (!parsed.success) {
       console.log(".odinfra/manifest.json exists but is invalid.");
     } else {
+      if (parsed.data.packageVersion) {
+        console.log(`Package version: ${parsed.data.packageVersion}`);
+      }
       console.log("Managed files:");
       for (const file of parsed.data.managedFiles) {
         console.log(`- ${file}`);
+      }
+      if (parsed.data.generatedFiles?.length) {
+        console.log("Generated file metadata:");
+        for (const file of parsed.data.generatedFiles) {
+          console.log(`- ${file.path} (${file.userModified ? "user-modified" : "managed"})`);
+        }
       }
     }
   }

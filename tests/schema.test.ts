@@ -22,6 +22,8 @@ describe("schema role defaults", () => {
     const permission = getPermissionForRole("backend-engineer");
     expect(permission.edit).toBe("ask");
     expect(permission.bash["pnpm test*"]).toBe("allow");
+    expect(permission.bash["yarn test*"]).toBe("allow");
+    expect(permission.bash["bun test*"]).toBe("allow");
     expect(permission.external_directory).toBe("deny");
   });
 });

@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const ODINFRA_SCHEMA_VERSION = "0.1.0";
+export const ODINFRA_SCHEMA_VERSION = "0.2.0";
 /**
  * Version of the generated Odinfra config and manifest schema.
  *
@@ -138,13 +138,23 @@ export interface OdinfraManagedBlock {
   end: string;
 }
 
+export interface OdinfraManifestFile {
+  path: string;
+  contentHash: string;
+  templateVersion: string;
+  lastAppliedPackageVersion: string;
+  userModified: boolean;
+}
+
 export interface OdinfraManifest {
   version: string;
   createdBy: "odinfra";
   targetTool: TargetTool;
   generatedAt: string;
+  packageVersion?: string;
   managedFiles: string[];
   managedBlocks: OdinfraManagedBlock[];
+  generatedFiles?: OdinfraManifestFile[];
 }
 
 export const odinfraManifestSchema: z.ZodType<OdinfraManifest> = z.object({
@@ -152,6 +162,7 @@ export const odinfraManifestSchema: z.ZodType<OdinfraManifest> = z.object({
   createdBy: z.literal("odinfra"),
   targetTool: targetToolSchema,
   generatedAt: z.string(),
+  packageVersion: z.string().optional(),
   managedFiles: z.array(z.string()),
   managedBlocks: z.array(
     z.object({
@@ -160,7 +171,18 @@ export const odinfraManifestSchema: z.ZodType<OdinfraManifest> = z.object({
       start: z.string(),
       end: z.string()
     })
-  )
+  ),
+  generatedFiles: z
+    .array(
+      z.object({
+        path: z.string(),
+        contentHash: z.string(),
+        templateVersion: z.string(),
+        lastAppliedPackageVersion: z.string(),
+        userModified: z.boolean()
+      })
+    )
+    .optional()
 });
 
 export const roleDefinitions: RoleDefinition[] = [
@@ -378,7 +400,10 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "npm run typecheck*": safeRead,
       "yarn lint*": safeRead,
       "yarn test*": safeRead,
-      "yarn typecheck*": safeRead
+      "yarn typecheck*": safeRead,
+      "bun run lint*": safeRead,
+      "bun test*": safeRead,
+      "bun run typecheck*": safeRead
     },
     task: safeDeny,
     external_directory: safeDeny,
@@ -400,7 +425,13 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "pnpm typecheck*": safeRead,
       "npm run lint*": safeRead,
       "npm run test*": safeRead,
-      "npm run typecheck*": safeRead
+      "npm run typecheck*": safeRead,
+      "yarn lint*": safeRead,
+      "yarn test*": safeRead,
+      "yarn typecheck*": safeRead,
+      "bun run lint*": safeRead,
+      "bun test*": safeRead,
+      "bun run typecheck*": safeRead
     },
     task: safeDeny,
     external_directory: safeDeny,
@@ -422,7 +453,11 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "pnpm lint*": safeRead,
       "pnpm typecheck*": safeRead,
       "npm run lint*": safeRead,
-      "npm run typecheck*": safeRead
+      "npm run typecheck*": safeRead,
+      "yarn lint*": safeRead,
+      "yarn typecheck*": safeRead,
+      "bun run lint*": safeRead,
+      "bun run typecheck*": safeRead
     },
     task: safeDeny,
     external_directory: safeDeny,
@@ -444,7 +479,11 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "pnpm test*": safeAsk,
       "pnpm typecheck*": safeAsk,
       "npm run test*": safeAsk,
-      "npm run typecheck*": safeAsk
+      "npm run typecheck*": safeAsk,
+      "yarn test*": safeAsk,
+      "yarn typecheck*": safeAsk,
+      "bun test*": safeAsk,
+      "bun run typecheck*": safeAsk
     },
     task: safeDeny,
     external_directory: safeDeny,
@@ -478,8 +517,11 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "pnpm test*": safeRead,
       "npm run test*": safeRead,
       "yarn test*": safeRead,
+      "bun test*": safeRead,
       "pnpm typecheck*": safeAsk,
-      "npm run typecheck*": safeAsk
+      "npm run typecheck*": safeAsk,
+      "yarn typecheck*": safeAsk,
+      "bun run typecheck*": safeAsk
     },
     task: safeDeny,
     external_directory: safeDeny,
@@ -501,7 +543,9 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "docker *": safeAsk,
       "docker compose *": safeAsk,
       "pnpm build*": safeAsk,
-      "npm run build*": safeAsk
+      "npm run build*": safeAsk,
+      "yarn build*": safeAsk,
+      "bun run build*": safeAsk
     },
     task: safeDeny,
     external_directory: safeDeny,
@@ -521,7 +565,9 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "git status*": safeRead,
       "git diff*": safeRead,
       "pnpm audit*": safeAsk,
-      "npm audit*": safeAsk
+      "npm audit*": safeAsk,
+      "yarn npm audit*": safeAsk,
+      "bun audit*": safeAsk
     },
     task: safeDeny,
     external_directory: safeDeny,
@@ -557,7 +603,13 @@ export const rolePermissionPresets: Record<string, AgentPermission> = {
       "pnpm typecheck*": safeRead,
       "npm run lint*": safeRead,
       "npm run test*": safeAsk,
-      "npm run typecheck*": safeRead
+      "npm run typecheck*": safeRead,
+      "yarn lint*": safeRead,
+      "yarn test*": safeAsk,
+      "yarn typecheck*": safeRead,
+      "bun run lint*": safeRead,
+      "bun test*": safeAsk,
+      "bun run typecheck*": safeRead
     },
     task: safeDeny,
     external_directory: safeDeny,

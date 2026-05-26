@@ -1,5 +1,5 @@
 import { renderOpenCodeArtifacts } from "@odinfra/adapter-opencode";
-import { createFilePlan } from "@odinfra/generator";
+import { analyzeProject, createFilePlan, detectPackageManager } from "@odinfra/generator";
 import { createDefaultAgents, ODINFRA_SCHEMA_VERSION } from "@odinfra/schema";
 import { renderAgentBody, renderRoleSystem } from "@odinfra/templates";
 
@@ -15,5 +15,7 @@ await createFilePlan({
   existingFiles: {},
   generatedAt: new Date("2026-01-01T00:00:00.000Z")
 });
+await detectPackageManager(".", { "package.json": JSON.stringify({ packageManager: "pnpm@9.15.4" }) });
+await analyzeProject(".", { "package.json": JSON.stringify({ dependencies: { react: "^19.0.0" } }) });
 
 ODINFRA_SCHEMA_VERSION satisfies string;
