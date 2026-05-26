@@ -1,5 +1,17 @@
 # odinfra
 
+## 0.3.0
+
+### Minor Changes
+
+- 701f4ac: Add safe update, configure, and read-only adopt flows with package manager detection, generated-file manifest metadata, and richer file-plan states for user-modified or confirmation-required generated files.
+
+### Patch Changes
+
+- Updated dependencies [701f4ac]
+  - @odinfra/generator@0.3.0
+  - @odinfra/schema@0.2.0
+
 ## 0.2.0
 
 ### Minor Changes
