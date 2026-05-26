@@ -39,14 +39,14 @@
     "dev": "pnpm --dir ../.. build && node dist/index.js"
   },
   "dependencies": {
-    "@inquirer/prompts": "^7.2.1",
+    "@inquirer/prompts": "^8.4.3",
     "@odinfra/generator": "workspace:*",
     "@odinfra/schema": "workspace:*",
-    "commander": "^12.1.0"
+    "commander": "^14.0.3"
   },
   "devDependencies": {
     "tsup": "^8.3.5",
     "tsx": "^4.19.2",
-    "typescript": "^5.7.2"
+    "typescript": "^6.0.3"
   }
 }
