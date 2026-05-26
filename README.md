@@ -11,6 +11,8 @@ Run the CLI with your package manager of choice:
 ```bash
 pnpm dlx odinfra init
 npx odinfra init
+yarn dlx odinfra init
+bunx odinfra init
 ```
 
 The published binary is `odinfra` and requires Node.js 20 or newer.
@@ -42,6 +44,14 @@ odinfra inspect
 odinfra doctor
 ```
 
+Regenerate, reconfigure, or adopt an existing project safely:
+
+```bash
+odinfra update --dry-run
+odinfra configure --agent researcher --model opencode-go/kimi-k2.6 --dry-run
+odinfra adopt
+```
+
 ## Generated File Contract
 
 Odinfra may create or update the following files:
@@ -58,6 +68,10 @@ opencode.json or opencode.jsonc
 Existing user content is preserved. `AGENTS.md` is updated through an Odinfra-managed block, and OpenCode JSON config is deep-merged. If both `opencode.json` and `opencode.jsonc` exist, Odinfra updates `opencode.json` and leaves `opencode.jsonc` untouched.
 
 Repeated runs are intended to be idempotent: generated files are rewritten only when their expected content changes, and user-owned content outside Odinfra-managed blocks remains in place.
+
+Generated file metadata is tracked in `.odinfra/manifest.json` with content hashes and package/template versions. Fully generated files that differ from the last Odinfra-managed hash are reported as `user-modified` so updates do not silently overwrite local changes.
+
+`odinfra adopt` is read-only. It analyzes project structure, package manager signals, existing rules/workflows/skills, and agent/tool files, then prints an adoption plan and LLM prompt without writing files.
 
 ## Packages
 
@@ -77,6 +91,7 @@ pnpm test
 pnpm build
 pnpm pack:check
 pnpm dev -- init --dry-run --yes
+pnpm dev -- adopt
 ```
 
 `pnpm check` runs linting, formatting checks, type checking, tests, build, and package smoke checks.

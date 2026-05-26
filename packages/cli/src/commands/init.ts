@@ -20,6 +20,7 @@ export interface InitOptions {
   dryRun: boolean;
   yes: boolean;
   commands: boolean;
+  packageVersion?: string;
 }
 
 const permissionChoices = [
@@ -36,7 +37,8 @@ export async function runInit(options: InitOptions): Promise<void> {
     projectRoot,
     targetTool: "opencode",
     agents: answers.agents,
-    includeCommands: answers.includeCommands
+    includeCommands: answers.includeCommands,
+    packageVersion: options.packageVersion
   });
 
   console.log(formatFilePlan(plan));
