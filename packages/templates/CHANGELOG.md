@@ -1,5 +1,12 @@
 # @odinfra/templates
 
+## 0.2.1
+
+### Patch Changes
+
+- Updated dependencies [701f4ac]
+  - @odinfra/schema@0.2.0
+
 ## 0.2.0
 
 ### Minor Changes

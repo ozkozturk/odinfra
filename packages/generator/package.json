@@ -1,6 +1,6 @@
 {
   "name": "@odinfra/generator",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Create and write Odinfra-managed file plans for target project integrations.",
   "license": "MIT",
   "type": "module",

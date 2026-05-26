@@ -1,6 +1,6 @@
 {
   "name": "@odinfra/schema",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "description": "Shared schema, role defaults, and permission presets for Odinfra packages.",
   "license": "MIT",
   "type": "module",

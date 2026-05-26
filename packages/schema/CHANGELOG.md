@@ -1,5 +1,11 @@
 # @odinfra/schema
 
+## 0.2.0
+
+### Minor Changes
+
+- 701f4ac: Add safe update, configure, and read-only adopt flows with package manager detection, generated-file manifest metadata, and richer file-plan states for user-modified or confirmation-required generated files.
+
 ## 0.1.2
 
 ### Patch Changes
